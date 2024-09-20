@@ -1,0 +1,22 @@
+server:
+  port: 8080
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: hospital-service
+  cloud:
+    gateway:
+      routes:
+        - id: doctor-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/doctor-api/**
+          filters:
+            - StripPrefix=1
+        - id: diagnosis-service
+          uri: http://localhost:8082/getDiagnosis
+          predicates:
+            - Path=/diagnosis-api/**
+          filters:
+            - StripPrefix=1
